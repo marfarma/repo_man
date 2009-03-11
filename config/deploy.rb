@@ -12,3 +12,5 @@ set :user, "apache"
 set :scm, "git"
 set :branch, "master"
 set :checkout, "export"
+
+set :default_stage, "production"
