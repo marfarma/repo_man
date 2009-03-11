@@ -1,9 +1,9 @@
 require 'test_helper'
 
 class RepositoryTest < ActiveSupport::TestCase
-  should_validate_presence_of   :name, :path
-  should_allow_values_for       :scm, 'git', 'svn'
-  should_not_allow_values_for   :scm, 'cvs', 'sourcesafe'
+  should_validate_presence_of    :name, :path
+  should_not_allow_values_for    :scm, 'cvs', 'sourcesafe'
+  Repository::SUPPORTED_SCM.each { |s| should_allow_values_for :scm, s }
 
   context 'the Repsitory model' do
     should 'default to ordering by name ASC' do
