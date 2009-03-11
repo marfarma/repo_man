@@ -3,6 +3,7 @@ require 'test_helper'
 class RepositoriesControllerTest < ActionController::TestCase
   context 'GET to :index' do
     setup do
+      Scm.stubs(:new).returns(stub(:location => 'pass'))
       @repository = Factory(:repository)
       get :index
     end
@@ -42,6 +43,7 @@ class RepositoriesControllerTest < ActionController::TestCase
   context 'POST to :create' do
     context 'with valid parameters' do
       setup do
+        Scm.stubs(:new).returns(stub(:location => 'pass'))
         post :create, :repository => Factory.attributes_for(:repository)
       end
       should_change 'Repository.count', :by => 1
