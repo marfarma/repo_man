@@ -37,14 +37,6 @@ production:
   adapter: mysql
   encoding: utf8
   database: repo_man_production
-  username: root
-  password: 
-  host: localhost
-
-staging:
-  adapter: mysql
-  encoding: utf8
-  database: repo_man_staging
-  username: root
-  password: 
-  host: localhost
+  username: repoman
+  password: intense
+  host: mysql50.lab.viget.com
