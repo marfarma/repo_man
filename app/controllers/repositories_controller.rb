@@ -3,10 +3,6 @@ class RepositoriesController < ApplicationController
     @repositories = Repository.all
   end
 
-  def show
-    @repository = Repository.find(params[:id])
-  end
-
   def new
     @repository = Repository.new
   end
@@ -15,7 +11,7 @@ class RepositoriesController < ApplicationController
     @repository = Repository.new(params[:repository])
     if @repository.save
       flash[:success] = 'The repository was successfully created.'
-      redirect_to(@repository)
+      redirect_to repositories_url
     else
       render :action => "new"
     end

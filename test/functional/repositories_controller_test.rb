@@ -3,21 +3,21 @@ require 'test_helper'
 class RepositoriesControllerTest < ActionController::TestCase
   context 'GET to :index' do
     setup do
+      @repository = Factory(:repository)
       get :index
     end
     should_respond_with :success
     should_render_template :index
     should_assign_to :repositories
-  end
 
-  context 'GET to :show' do
-    setup do
-      @repository = Factory(:repository)
-      get :show, :id => @repository.id
+    should 'render the repository' do
+      assert_select 'h2', @repository.name
+      assert_select 'p',  @repository.path
     end
-    should_respond_with :success
-    should_render_template :show
-    should_assign_to :repository
+
+    should 'render a link to create a new repository' do
+      assert_select 'a[href=?]', new_repository_path
+    end
   end
 
   context 'GET to :new' do
@@ -34,16 +34,16 @@ class RepositoriesControllerTest < ActionController::TestCase
       setup do
         post :create, :repository => Factory.attributes_for(:repository)
       end
-      should_change "Repository.count", :by => 1
+      should_change 'Repository.count', :by => 1
       should_set_the_flash_to 'The repository was successfully created.'
       should_respond_with :redirect
-      should_redirect_to('the repository') { repository_url(assigns(:repository)) }
+      should_redirect_to('the repository index') { repositories_url }
     end
     context 'with invalid parameters' do
       setup do
         post :create, :repository => { }
       end
-      should_not_change "Repository.count"
+      should_not_change 'Repository.count'
       should_not_set_the_flash
       should_respond_with :success
       should_render_template :new

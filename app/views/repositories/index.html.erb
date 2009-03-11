@@ -1,0 +1,6 @@
+<% @repositories.each do |repository| %>
+<h2><%= h(repository.name) %></h2>
+<p><%= h(repository.path) %></p>
+<% end %>
+
+<%= link_to 'Create a new repository', new_repository_path %>
