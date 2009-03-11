@@ -1,0 +1,14 @@
+<% form_for @repository do |form| %>
+<%= form.error_messages %>
+<div class="text_field">
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+</div>
+<div class="select">
+  <%= form.label :scm %>
+  <%= form.select :scm, Repository::SUPPORTED_SCM.collect{|s| [s,s]} %>
+</div>
+<div class="submit">
+  <%= form.submit 'Create Repository' %>
+</div>
+<% end %>

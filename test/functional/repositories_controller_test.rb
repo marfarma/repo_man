@@ -27,6 +27,16 @@ class RepositoriesControllerTest < ActionController::TestCase
     should_respond_with :success
     should_render_template :new
     should_assign_to :repository
+
+    should 'have a form to create a repository' do
+      assert_select 'form[action=?][method=post]', repositories_path do
+        assert_select 'input[type=text][name=?]', 'repository[name]'
+        assert_select 'select[name=?]', 'repository[scm]' do
+          Repository::SUPPORTED_SCM.each { |s| assert_select "option[value=#{s}]", s }
+        end
+        assert_select 'input[type=submit]'
+      end
+    end
   end
 
   context 'POST to :create' do
