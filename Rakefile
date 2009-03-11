@@ -8,3 +8,5 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 
 require 'tasks/rails'
+
+require_coverage(100)
