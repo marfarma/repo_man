@@ -47,18 +47,28 @@ class RepositoriesControllerTest < ActionController::TestCase
         post :create, :repository => Factory.attributes_for(:repository)
       end
       should_change 'Repository.count', :by => 1
-      should_set_the_flash_to 'The repository was successfully created.'
+      should_set_the_flash_to "Repository created. You know something? <strong>You're all right!</strong>"
       should_respond_with :redirect
       should_redirect_to('the repository index') { repositories_url }
     end
     context 'with invalid parameters' do
       setup do
-        post :create, :repository => { }
+        post :create, :repository => { :name => nil }
       end
       should_not_change 'Repository.count'
       should_not_set_the_flash
       should_respond_with :success
       should_render_template :new
+
+      should 'render error messaging' do
+        assert_select 'div[id=errorExplanation]' do
+          assert_select 'p', "Errors! Try again. Repo Man's got all night, every night."
+          assert_select 'p', "Fix these:"
+          assert_select 'ul' do
+            assert_select 'li', "Name can't be blank"
+          end
+        end
+      end
     end
   end
 end

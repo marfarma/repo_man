@@ -4,10 +4,12 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Repo Man</title>
+	<%= stylesheet_link_tag 'repoman' %>
 </head>
 <body>
-  <%= image_tag 'repo_man.jpg', :alt => '', :size => '334x475', :style => 'float: right' %>
+  <%= image_tag 'repo_man.jpg', :id => 'repoman', :alt => '' %>
   <h1>Repo Man</h1>
+  <%= content_tag(:p, flash[:success], :style => 'success') unless flash[:success].blank? %>
   <%= yield %>
 </body>
 </html>

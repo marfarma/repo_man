@@ -10,7 +10,7 @@ class RepositoriesController < ApplicationController
   def create
     @repository = Repository.new(params[:repository])
     if @repository.save
-      flash[:success] = 'The repository was successfully created.'
+      flash[:success] = "Repository created. You know something? <strong>You're all right!</strong>"
       redirect_to repositories_url
     else
       render :action => "new"

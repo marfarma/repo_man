@@ -28,6 +28,7 @@ class RepositoryTest < ActiveSupport::TestCase
       Scm.expects(:new).returns(stub(:location => nil))
       @repository = Factory.build(:repository, :scm => 'svn', :path => 'path')
       assert !@repository.save
+      assert @repository.errors.on(:base)
     end
   end
 end
