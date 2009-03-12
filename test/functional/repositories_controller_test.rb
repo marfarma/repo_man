@@ -40,6 +40,23 @@ class RepositoriesControllerTest < ActionController::TestCase
       should 'render instructions' do
         assert_select 'div[class=instructions]'
       end
+      
+      should 'render a button to delete the repository' do
+        assert_select 'form[method=post][action=?][class=button-to]', repository_path(@repository) do
+          assert_select 'input[type=hidden][name=_method][value=delete]'
+          assert_select 'input[type=submit][value=Delete this repository]'
+        end
+      end
+    end
+
+    context 'DELETE to :destroy' do
+      setup do
+        get :destroy, :id => @repository.id
+      end
+      should_change 'Repository.count', :by => -1
+      should_set_the_flash_to "Repository deleted. Repo man is always intense!"
+      should_respond_with :redirect
+      should_redirect_to('the repository index') { repositories_url }
     end
   end
 

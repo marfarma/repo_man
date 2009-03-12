@@ -22,4 +22,12 @@ class RepositoriesController < ApplicationController
       render :action => "new"
     end
   end
+  
+  def destroy
+    @repository = Repository.find(params[:id])
+    @repository.destroy
+    flash[:success] = "Repository deleted. Repo man is always intense!"
+    redirect_to repositories_url
+  end
+  
 end

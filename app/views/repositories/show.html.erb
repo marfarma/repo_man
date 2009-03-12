@@ -1,2 +1,4 @@
 <%= render @repository %>
 <%= render :partial => "#{@repository.scm}_instructions", :locals => {:repository => @repository} %>
+<%= button_to 'Delete this repository', @repository, :method => 'delete',
+              :confirm => "Whoa. That's pretty intense. Are you sure?" %>

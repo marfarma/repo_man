@@ -85,4 +85,15 @@ class ScmTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context 'removing a repository' do
+    should 'call system if scm type is svn' do
+      Scm.expects(:system).returns(true)
+      Scm.delete('svn', 'example')
+    end
+    should 'call system if scm type is git' do
+      Scm.expects(:system).returns(true)
+      Scm.delete('git', 'example')
+    end
+  end
 end

@@ -8,15 +8,24 @@ class Repository < ActiveRecord::Base
   validates_inclusion_of :scm, :in => SUPPORTED_SCM, :message => 'is invalid'
 
   before_validation :create_scm_repository
+  after_destroy :destroy_scm_repository
+
+  def slug
+    self.name.to_s.parameterize.to_s
+  end
 
   def create_scm_repository
     unless self.name.blank?
-      if location = Scm.new(self.scm, self.name.to_s.parameterize.to_s).location
+      if location = Scm.new(self.scm, self.slug).location
         self.path = location
       else
         self.errors.add_to_base('Repository could not be created. It happens sometimes. People just explode. Natural causes.')
         false
       end
     end
+  end
+
+  def destroy_scm_repository
+    Scm.delete(self.scm, self.slug)
   end
 end
