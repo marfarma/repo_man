@@ -17,9 +17,9 @@ class Scm
   def self.delete(scm_type, path)
     case scm_type
     when 'svn'
-      system("rm -rf /srv/svn/#{path}")
+      system("/bin/rm -rf /srv/svn/#{path}")
     when 'git'
-      system("rm -rf /srv/git/#{path}.git")
+      system("/bin/rm -rf /srv/git/#{path}.git")
     end
   end
 end
