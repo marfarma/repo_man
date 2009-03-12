@@ -1,7 +1,6 @@
 class RepositoriesController < ApplicationController
   def index
-    @repositories    = Repository.all
-    @last_repository = Repository.find(flash[:repository_id]) if flash[:repository_id]
+    @repositories = Repository.all
   end
 
   def show
@@ -15,9 +14,8 @@ class RepositoriesController < ApplicationController
   def create
     @repository = Repository.new(params[:repository])
     if @repository.save
-      flash[:success]       = "Repository created. You know something? <strong>You're all right!</strong>"
-      flash[:repository_id] = @repository.id
-      redirect_to repositories_url
+      flash[:success] = "Repository created. You know something? <strong>You're all right!</strong>"
+      redirect_to @repository
     else
       render :action => "new"
     end

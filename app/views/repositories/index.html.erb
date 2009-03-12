@@ -1,7 +1,2 @@
-<% if @last_repository %>
-<%= render :partial => "#{@last_repository.scm}_instructions", :locals => {:repository => @last_repository} %>
-<% end %>
-
 <%= render @repositories %>
-
 <%= link_to 'Create a new repository', new_repository_path %>
