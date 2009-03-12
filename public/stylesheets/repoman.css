@@ -1,4 +1,4 @@
-img#repoman { width: 334px; height: 475px; float: right; }
+img#repoman { width: 425px; height: 250px; float: right; }
 p.success { background-color: green; color: white; padding: 5px; }
 div.errorExplanation { background-color: red; color: white; padding: 5px; }
 div.instructions { background-color: white; color: green; border: thin solid green; padding: 5px;}
