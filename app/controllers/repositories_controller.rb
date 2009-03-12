@@ -4,6 +4,10 @@ class RepositoriesController < ApplicationController
     @last_repository = Repository.find(flash[:repository_id]) if flash[:repository_id]
   end
 
+  def show
+    @repository = Repository.find(params[:id])
+  end
+
   def new
     @repository = Repository.new
   end

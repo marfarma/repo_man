@@ -1,0 +1,2 @@
+<%= render @repository %>
+<%= render :partial => "#{@repository.scm}_instructions", :locals => {:repository => @repository} %>

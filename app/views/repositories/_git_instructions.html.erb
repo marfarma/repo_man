@@ -1,25 +1,25 @@
 <div class="instructions">
   
-<p><strong>Wait!</strong> Your new Git repository needs a little bit of setup. You'll need to open a terminal and type (or cut and paste) some Git commands.</p>
+<p><strong>Wait!</strong> A new Git repository needs a little bit of setup. You'll need to open a terminal and type (or cut and paste) some Git commands.</p>
 
-<p>Is this a completely new project? Type these commands:</p>
+<p><em>Is this a completely new project?</em> Type these commands:</p>
 
 <pre>
-mkdir <%= @last_repository.path %>
-cd <%= @last_repository.path %>
+mkdir <%= repository.path %>
+cd <%= repository.path %>
 git init
 touch README
 git add README
 git commit -m 'first commit'
-git remote add origin git.lab.viget.com:/srv/git/<%= @last_repository.path %>.git
+git remote add origin git.lab.viget.com:/srv/git/<%= repository.path %>.git
 git push origin master
 </pre>
 
-<p>Or do you have an existing git repository to push into this one? Type these commands:</p>
+<p>Or <em>do you have an existing git repository to push into this one?</em> Type these commands:</p>
 
 <pre>
 cd existing_git_repo
-git remote add origin git.lab.viget.com:/srv/git/<%= @last_repository.path %>.git
+git remote add origin git.lab.viget.com:/srv/git/<%= repository.path %>.git
 git push origin master
 </pre> 
 

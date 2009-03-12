@@ -8,7 +8,7 @@
 </head>
 <body>
   <%= image_tag 'repo_man.jpg', :id => 'repoman', :alt => '' %>
-  <h1>Repo Man</h1>
+  <h1><%= link_to 'Repo Man', root_url %></h1>
   <%= content_tag(:p, flash[:success], :class => 'success') unless flash[:success].blank? %>
   <%= yield %>
 </body>

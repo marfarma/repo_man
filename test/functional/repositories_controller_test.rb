@@ -1,23 +1,45 @@
 require 'test_helper'
 
 class RepositoriesControllerTest < ActionController::TestCase
-  context 'GET to :index' do
+  context 'with a previously-existing repository' do
     setup do
       Scm.stubs(:new).returns(stub(:location => 'pass'))
-      @repository = Factory(:repository)
-      get :index
+      @repository = Factory(:repository, :scm => 'git')
     end
-    should_respond_with :success
-    should_render_template :index
-    should_assign_to :repositories
+    context 'GET to :index' do
+      setup do
+        get :index
+      end
+      should_respond_with :success
+      should_render_template :index
+      should_assign_to :repositories
 
-    should 'render the repository' do
-      assert_select 'h2', @repository.name
-      assert_select 'p',  @repository.path
+      should 'render the repository' do
+        assert_select 'h2', @repository.name
+        assert_select 'p',  @repository.path
+      end
+
+      should 'render a link to create a new repository' do
+        assert_select 'a[href=?]', new_repository_path
+      end
     end
 
-    should 'render a link to create a new repository' do
-      assert_select 'a[href=?]', new_repository_path
+    context 'GET to :show' do
+      setup do
+        get :show, :id => @repository.id
+      end
+      should_respond_with :success
+      should_render_template :show
+      should_assign_to :repository
+
+      should 'render the repository' do
+        assert_select 'h2', @repository.name
+        assert_select 'p',  @repository.path
+      end
+
+      should 'render instructions' do
+        assert_select 'div[class=instructions]'
+      end
     end
   end
 
