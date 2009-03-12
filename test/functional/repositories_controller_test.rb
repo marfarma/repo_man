@@ -50,6 +50,9 @@ class RepositoriesControllerTest < ActionController::TestCase
       should_set_the_flash_to "Repository created. You know something? <strong>You're all right!</strong>"
       should_respond_with :redirect
       should_redirect_to('the repository index') { repositories_url }
+      should "store created repository's id in flash for possible further instructions" do
+        assert_equal Repository.last.id, flash[:repository_id]
+      end
     end
     context 'with invalid parameters' do
       setup do

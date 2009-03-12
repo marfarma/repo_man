@@ -1,0 +1,26 @@
+<div class="instructions">
+  
+<p><strong>Wait!</strong> Your new Git repository needs a little bit of setup. You'll need to open a terminal and type (or cut and paste) some Git commands.</p>
+
+<p>Is this a completely new project? Type these commands:</p>
+
+<pre>
+mkdir <%= @last_repository.name %>
+cd <%= @last_repository.name %>
+git init
+touch README
+git add README
+git commit -m 'first commit'
+git remote add origin git.lab.viget.com:/srv/git/<%= @last_repository.name %>.git
+git push origin master
+</pre>
+
+<p>Or do you have an existing git repository to push into this one? Type these commands:</p>
+
+<pre>
+cd existing_git_repo
+git remote add origin git.lab.viget.com:/srv/git/<%= @last_repository.name %>.git
+git push origin master
+</pre> 
+
+</div>
