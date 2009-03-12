@@ -5,13 +5,13 @@
 <p>Is this a completely new project? Type these commands:</p>
 
 <pre>
-mkdir <%= @last_repository.name %>
-cd <%= @last_repository.name %>
+mkdir <%= @last_repository.path %>
+cd <%= @last_repository.path %>
 git init
 touch README
 git add README
 git commit -m 'first commit'
-git remote add origin git.lab.viget.com:/srv/git/<%= @last_repository.name %>.git
+git remote add origin git.lab.viget.com:/srv/git/<%= @last_repository.path %>.git
 git push origin master
 </pre>
 
@@ -19,7 +19,7 @@ git push origin master
 
 <pre>
 cd existing_git_repo
-git remote add origin git.lab.viget.com:/srv/git/<%= @last_repository.name %>.git
+git remote add origin git.lab.viget.com:/srv/git/<%= @last_repository.path %>.git
 git push origin master
 </pre> 
 
