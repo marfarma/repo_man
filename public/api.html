@@ -18,11 +18,11 @@
 => true
 >> require 'repo_man'
 => true
->> food = RepoMan::Repository.create(:name => 'Food, Meat Flavored', :scm => 'git')
-=> #<RepoMan::Repository:0x17c1af4 @attributes={"name"=>"Food, Meat Flavored", "updated_at"=>Tue Apr 21 17:12:35 UTC 2009, "id"=>16, "scm"=>"git",
+>> food = RepoMan::Repository.create(:name => 'Food (Meat Flavored)', :scm => 'git')
+=> #<RepoMan::Repository:0x17c1af4 @attributes={"name"=>"Food (Meat Flavored)", "updated_at"=>Tue Apr 21 17:12:35 UTC 2009, "id"=>16, "scm"=>"git",
 "path"=>"git.lab.viget.com:/srv/git/food-meat-flavored.git", "created_at"=>Tue Apr 21 17:12:35 UTC 2009}, prefix_options{}
 >> RepoMan::Repository.find(food.id).name
-=> "Food, Meat Flavored"
+=> "Food (Meat Flavored)"
 >> food.destroy
 => #&lt;Net::HTTPOK 200 OK readbody=true&gt;
   </code></pre>
