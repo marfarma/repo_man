@@ -15,8 +15,8 @@ class Repository < ActiveRecord::Base
   end
 
   def create_scm_repository
-    if location = Scm.new(self.scm, self.slug).location
-      self.path = location
+    if Scm.create(self.scm, self.slug)
+      self.path = Scm.url_for(self.scm, self.slug)
     else
       self.errors.add_to_base('Repository could not be created. It happens sometimes. People just explode. Natural causes.')
       false
@@ -32,6 +32,7 @@ class Repository < ActiveRecord::Base
   def move_scm_repository
     if self.name_changed?
       Scm.move(self.scm, self.slug(name_was), self.slug)
+      self.path = Scm.url_for(self.scm, self.slug)
     end
   end
 

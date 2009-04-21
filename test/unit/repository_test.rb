@@ -9,7 +9,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
   context 'a Repository object' do
     setup do
-      Scm.stubs(:new).returns(stub(:location => 'pass'))
+      Scm.stubs(:create).returns(true)
       @repository = Factory(:repository)
     end
     should_validate_presence_of   :name
@@ -22,32 +22,33 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   context 'interacting with Scm to manipulate repositories on disk' do
-    should 'permit Repository object to be saved if Scm.new succeeds' do
-      Scm.expects(:new).returns(stub(:location => 'pass'))
+    should 'permit Repository object to be saved if Scm.create succeeds' do
+      Scm.expects(:create).returns(stub(:location => 'pass'))
       @repository = Factory.build(:repository, :scm => 'svn', :path => 'path')
       assert @repository.save
     end
-    should 'not permit Repository object to be saved if Scm.new fails' do
-      Scm.expects(:new).returns(stub(:location => nil))
+    should 'not permit Repository object to be saved if Scm.create fails' do
+      Scm.expects(:create).returns(false)
       @repository = Factory.build(:repository, :scm => 'svn', :path => 'path')
       assert !@repository.save
       assert @repository.errors.on(:base)
     end
     should "rename repository on disk when repository object's name is changed" do
-      Scm.expects(:new).returns(stub(:location => 'pass'))
+      Scm.expects(:create).returns(stub(:location => 'pass'))
       @repository = Factory(:repository, :scm => 'svn', :path => 'path')
       Scm.expects(:move).with('svn', @repository.slug, 'pants').returns(true)
       @repository.update_attributes(:name => 'pants')
+      assert_equal Scm.url_for('svn', 'pants'), @repository.path
     end
     should "fail validation when repository object's scm is changed" do
-      Scm.expects(:new).returns(stub(:location => 'pass'))
+      Scm.expects(:create).returns(stub(:location => 'pass'))
       @repository = Factory(:repository, :scm => 'svn', :path => 'path')
       @repository.scm = 'git'
       assert !@repository.save
       assert @repository.errors.on(:scm)
     end
     should 'destroy repository on disk when repository object is deleted' do
-      Scm.expects(:new).returns(stub(:location => 'pass'))
+      Scm.expects(:create).returns(stub(:location => 'pass'))
       @repository = Factory(:repository, :scm => 'svn', :path => 'path')
       Scm.expects(:delete).with('svn', @repository.slug).returns(true)
       @repository.destroy

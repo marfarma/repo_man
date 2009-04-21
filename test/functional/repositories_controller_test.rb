@@ -3,7 +3,7 @@ require 'test_helper'
 class RepositoriesControllerTest < ActionController::TestCase
   context 'with a previously-existing repository' do
     setup do
-      Scm.stubs(:new).returns(stub(:location => 'pass'))
+      Scm.stubs(:create).returns(true)
       @repository = Factory(:repository, :scm => 'git')
     end
     context 'GET to :index' do
@@ -206,7 +206,7 @@ class RepositoriesControllerTest < ActionController::TestCase
   context 'POST to :create' do
     context 'with valid parameters' do
       setup do
-        Scm.stubs(:new).returns(stub(:location => 'pass'))
+        Scm.stubs(:create).returns(true)
       end
       context 'with HTML format' do
         setup do
