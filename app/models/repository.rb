@@ -7,7 +7,7 @@ class Repository < ActiveRecord::Base
   validates_uniqueness_of :path, :allow_blank => true
   validates_inclusion_of :scm, :in => SUPPORTED_SCM, :message => 'is invalid'
 
-  before_validation :create_scm_repository
+  before_create :create_scm_repository
   after_destroy :destroy_scm_repository
 
   def slug
@@ -15,13 +15,11 @@ class Repository < ActiveRecord::Base
   end
 
   def create_scm_repository
-    unless self.name.blank?
-      if location = Scm.new(self.scm, self.slug).location
-        self.path = location
-      else
-        self.errors.add_to_base('Repository could not be created. It happens sometimes. People just explode. Natural causes.')
-        false
-      end
+    if location = Scm.new(self.scm, self.slug).location
+      self.path = location
+    else
+      self.errors.add_to_base('Repository could not be created. It happens sometimes. People just explode. Natural causes.')
+      false
     end
   end
 
