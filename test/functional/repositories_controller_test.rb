@@ -83,6 +83,68 @@ class RepositoriesControllerTest < ActionController::TestCase
       end
     end
 
+    context 'GET to :edit' do
+      setup do
+        get :edit, :id => @repository.id
+      end
+      should_respond_with :success
+      should_render_template :edit
+      should_assign_to :repository
+
+      should 'have a form to rename a repository' do
+        assert_select 'form[action=?][method=post]', repository_path(@repository) do
+          assert_select 'input[type=hidden][name=_method][value=put]'
+          assert_select 'input[type=text][name=?]', 'repository[name]'
+          assert_select 'input[type=submit]'
+        end
+      end
+    end
+
+    context 'PUT to :update' do
+      context 'with valid parameters' do
+        context 'with HTML format' do
+          setup do
+            put :update, :id => @repository.id, :repository => Factory.attributes_for(:repository)
+          end
+          should_set_the_flash_to "Repository updated. You know something? <strong>You're all right!</strong>"
+          should_respond_with :redirect
+          should_redirect_to('the repository') { repository_url(Repository.last.id) }
+        end
+        context 'with XML format' do
+          setup do
+            put :update, :id => @repository.id, :repository => Factory.attributes_for(:repository), :format => 'xml'
+          end
+          should_respond_with :ok
+        end
+      end
+      context 'with invalid parameters' do
+        context 'with HTML format' do
+          setup do
+            put :update, :id => @repository.id, :repository => { :name => nil }
+          end
+          should_not_set_the_flash
+          should_respond_with :success
+          should_render_template :edit
+
+          should 'render error messaging' do
+            assert_select 'div[id=errorExplanation]' do
+              assert_select 'p', "Errors! Try again. Repo Man's got all night, every night."
+              assert_select 'p', "Fix these:"
+              assert_select 'ul' do
+                assert_select 'li', "Name can't be blank"
+              end
+            end
+          end
+        end
+        context 'with XML format' do
+          setup do
+            put :update, :id => @repository.id, :repository => { :name => nil }, :format => 'xml'
+          end
+          should_respond_with :unprocessable_entity
+        end
+      end
+    end
+
     context 'DELETE to :destroy' do
       setup do
         Scm.expects(:system).returns(true)

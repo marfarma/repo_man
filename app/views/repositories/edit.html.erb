@@ -1,0 +1,12 @@
+<% form_for @repository do |form| %>
+<%= form.error_messages(:header_message => "Errors! Try again. Repo Man's got all night, every night.",
+                        :header_tag     => "p",
+                        :message        => "Fix these:") %>
+<div class="text_field">
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+</div>
+<div class="submit">
+  <%= form.submit 'Update Repository' %>
+</div>
+<% end %>

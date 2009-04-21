@@ -1,4 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :repositories, :except => [:edit, :update]
+  map.resources :repositories
   map.root :controller => "repositories"
 end
