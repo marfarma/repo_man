@@ -1,0 +1,4 @@
+body { font-family: sans-serif; }
+div#api-container { border-bottom: 100px solid #99f; }
+h1 { text-align: center; font-size: 75px; background-color: white; color: #006; }
+p { background-color: white; color: #006; }

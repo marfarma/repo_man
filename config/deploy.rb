@@ -14,3 +14,9 @@ set :branch, "master"
 set :checkout, "export"
 
 set :default_stage, "production"
+
+namespace :deploy do
+  task :after_default, :roles => :web do
+    run "cd #{release_path} && gem build repo_man.gemspec && mv *gem public"
+  end
+end

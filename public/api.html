@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="stylesheet" href="/stylesheets/api.css" type="text/css" media="screen" charset="utf-8">
+  <title>API</title>
+</head>
+<body>
+  <div id="api-container">
+    <h1>application programming interface</h1>
+  </div>
+
+  <p>Repo Man has an API that is accessible via <a href="http://api.rubyonrails.org/files/vendor/rails/activeresource/README.html">Active Resource</a>. For ease of use, there is a <a href="repo_man-1.0.0.gem">gem</a> that creates a thin wrapper around ActiveResource, thus:</p>
+
+  <pre><code>
+>> require 'rubygems'
+=> true
+>> require 'repo_man'
+=> true
+>> food = RepoMan::Repository.create(:name => 'Food, Meat Flavored', :scm => 'git')
+=> #<RepoMan::Repository:0x17c1af4 @attributes={"name"=>"Food, Meat Flavored", "updated_at"=>Tue Apr 21 17:12:35 UTC 2009, "id"=>16, "scm"=>"git",
+"path"=>"git.lab.viget.com:/srv/git/food-meat-flavored.git", "created_at"=>Tue Apr 21 17:12:35 UTC 2009}, prefix_options{}
+>> RepoMan::Repository.find(food.id).name
+=> "Food, Meat Flavored"
+>> food.destroy
+=> #&lt;Net::HTTPOK 200 OK readbody=true&gt;
+  </code></pre>
+
+  <p>Note that there is no "update" method defined. Repositories cannot be updated after being created; they can only be retrieved or deleted.</p>
+  
+</body>
+</html>
