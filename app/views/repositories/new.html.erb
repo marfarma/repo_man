@@ -8,7 +8,7 @@
 </div>
 <div class="select">
   <%= form.label :scm %>
-  <%= form.select :scm, Repository::SUPPORTED_SCM.collect{|s| [s,s]} %>
+  <%= form.select :scm, Scm::SUPPORTED_SCM.collect{|s| [s,s]} %>
 </div>
 <div class="submit">
   <%= form.submit 'Create Repository' %>

@@ -86,14 +86,21 @@ class ScmTest < ActiveSupport::TestCase
     end
   end
 
-  context 'removing a repository' do
-    should 'call system if scm type is svn' do
-      Scm.expects(:system).returns(true)
-      Scm.delete('svn', 'example')
+  context 'moving a repository' do
+    Scm::SUPPORTED_SCM.each do |scm|
+      should "call /bin/mv via system when scm type is #{scm}" do
+        Scm.expects(:system).with("sudo /bin/mv #{Scm.path_to(scm, 'old_slug')} #{Scm.path_to(scm, 'new_slug')}").returns(true)
+        Scm.move(scm, 'old_slug', 'new_slug')
+      end
     end
-    should 'call system if scm type is git' do
-      Scm.expects(:system).returns(true)
-      Scm.delete('git', 'example')
+  end
+
+  context 'removing a repository' do
+    Scm::SUPPORTED_SCM.each do |scm|
+      should "call /bin/rm via system when scm type is #{scm}" do
+        Scm.expects(:system).with("sudo /bin/rm -rf #{Scm.path_to(scm, 'slug')}").returns(true)
+        Scm.delete(scm, 'slug')
+      end
     end
   end
 end

@@ -119,7 +119,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         assert_select 'form[action=?][method=post]', repositories_path do
           assert_select 'input[type=text][name=?]', 'repository[name]'
           assert_select 'select[name=?]', 'repository[scm]' do
-            Repository::SUPPORTED_SCM.each { |s| assert_select "option[value=#{s}]", s }
+            Scm::SUPPORTED_SCM.each { |s| assert_select "option[value=#{s}]", s }
           end
           assert_select 'input[type=submit]'
         end

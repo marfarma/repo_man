@@ -1,4 +1,6 @@
 class Scm
+  SUPPORTED_SCM = %w(svn git)
+
   attr_reader :location
   
   def initialize(scm_type, path)
@@ -13,13 +15,21 @@ class Scm
       end
     end
   end
+
+  def self.move(scm_type, old_slug, new_slug)
+    system "sudo /bin/mv #{Scm.path_to(scm_type, old_slug)} #{Scm.path_to(scm_type, new_slug)}"
+  end
+
+  def self.delete(scm_type, slug)
+    system "sudo /bin/rm -rf #{Scm.path_to(scm_type, slug)}"
+  end
   
-  def self.delete(scm_type, path)
+  def self.path_to(scm_type, slug)
     case scm_type
     when 'svn'
-      system("sudo /bin/rm -rf /srv/svn/#{path}")
+      "/srv/svn/#{slug}"
     when 'git'
-      system("sudo /bin/rm -rf /srv/git/#{path}.git")
+      "/srv/git/#{slug}.git"
     end
   end
 end
