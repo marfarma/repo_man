@@ -6,3 +6,4 @@ Be sure that the apache user has sudo rights to run the script-o-mats:
 apache ALL=NOPASSWD: /usr/local/bin/git-o-mat.sh
 apache ALL=NOPASSWD: /usr/local/bin/svn-o-mat.sh
 apache ALL=NOPASSWD: /bin/rm
+apache ALL=NOPASSWD: /bin/mv
