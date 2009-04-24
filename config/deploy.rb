@@ -1,6 +1,6 @@
 set :application, "repo_man"
 set :use_sudo, false
-set :repository, "git://git.lab.viget.com/#{application}.git"
+set :repository, "git://github.com/vigetlabs/#{application}.git"
 set :deploy_to, "/var/www/#{application}/production"
 
 role :web, "sapporo.lab.viget.com"
