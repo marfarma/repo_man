@@ -1,12 +1,12 @@
 class Scm
-  SUPPORTED_SCM = %w(svn git)
+  SUPPORTED_SCM = %w(git svn)
 
   def self.create(scm_type, path)
     case scm_type
     when 'svn'
-      !File.exist?("/srv/svn/#{path}") && system("sudo /usr/local/bin/svn-o-mat.sh #{path}")
+      !File.exist?("#{SITE['svn_root']}/#{path}") && system("sudo #{SITE['svn_script']} #{path}")
     when 'git'
-      !File.exist?("/srv/git/#{path}.git") && system("sudo /usr/local/bin/git-o-mat.sh #{path}")
+      !File.exist?("#{SITE['git_root']}/#{path}.git") && system("sudo #{SITE['git_script']} #{path}")
     end
   end
 
@@ -17,22 +17,22 @@ class Scm
   def self.delete(scm_type, slug)
     system "sudo /bin/rm -rf #{Scm.path_to(scm_type, slug)}"
   end
-  
+
   def self.url_for(scm_type, slug)
     case scm_type
     when 'svn'
-      "svn://svn.lab.viget.com/#{slug}/trunk"
+      "svn://#{SITE['svn_host']}/#{slug}/trunk"
     when 'git'
-      "git.lab.viget.com:/srv/git/#{slug}.git"
+      "#{SITE['git_host']}:#{SITE['git_root']}/#{slug}.git"
     end
   end
 
   def self.path_to(scm_type, slug)
     case scm_type
     when 'svn'
-      "/srv/svn/#{slug}"
+      "#{SITE['svn_root']}/#{slug}"
     when 'git'
-      "/srv/git/#{slug}.git"
+      "#{SITE['git_root']}/#{slug}.git"
     end
   end
 end

@@ -4,20 +4,24 @@ class ScmTest < ActiveSupport::TestCase
   context 'creating a repository' do
     Scm::SUPPORTED_SCM.each do |scm|
       context "when scm type is #{scm}" do
-        should "succeed if #{scm}-o-mat succeeds" do
-          File.expects(:exist?).returns(false)
-          Scm.expects(:system).returns(true)
+        setup do
+          @script = SITE["#{scm}_script"]
+        end
+
+        should "succeed if #{@script} succeeds" do
+          File.expects(:exist?).with(Scm.path_to(scm, 'awesome')).returns(false)
+          Scm.expects(:system).with("sudo #{@script} awesome").returns(true)
           assert Scm.create(scm, 'awesome')
         end
 
-        should "fail if #{scm}-o-mat fails" do
-          File.expects(:exist?).returns(false)
-          Scm.expects(:system).returns(false)
+        should "fail if #{@script} fails" do
+          File.expects(:exist?).with(Scm.path_to(scm, 'awesome')).returns(false)
+          Scm.expects(:system).with("sudo #{@script} awesome").returns(false)
           assert !Scm.create(scm, 'awesome')
         end
 
         should 'fail if file exists' do
-          File.expects(:exist?).returns(true)
+          File.expects(:exist?).with(Scm.path_to(scm, 'awesome')).returns(true)
           assert !Scm.create(scm, 'awesome')
         end
       end

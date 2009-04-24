@@ -12,8 +12,8 @@ cd <%= repository.slug %>
 git init
 touch README
 git add README
-git commit -m 'first commit'
-git remote add origin git.lab.viget.com:/srv/git/<%= repository.slug %>.git
+git commit -m "plate o' shrimp"
+git remote add origin <%= Scm.url_for('git', repository.slug) %>
 git push origin master
 </pre>
 
@@ -21,7 +21,7 @@ git push origin master
 
 <pre>
 cd existing_git_repo
-git remote add origin git.lab.viget.com:/srv/git/<%= repository.slug %>.git
+git remote add origin <%= Scm.url_for('git', repository.slug) %>
 git push origin master
 </pre> 
 

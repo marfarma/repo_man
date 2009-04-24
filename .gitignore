@@ -1,5 +1,6 @@
 coverage
 config/database.yml
+config/site.yml
 db/*.sqlite3
 log/*.log
 tmp/restart.txt

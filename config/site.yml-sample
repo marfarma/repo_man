@@ -1,0 +1,7 @@
+---
+git_host: git.lab.viget.com
+git_root: /srv/git
+git_script: /usr/local/bin/git-o-mat.sh
+svn_host: svn.lab.viget.com
+svn_root: /srv/svn
+svn_script: /usr/local/bin/svn-o-mat.sh

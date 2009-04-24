@@ -15,6 +15,8 @@ set :checkout, "export"
 
 set :default_stage, "production"
 
+set :symlinks, %w(config/database.yml config/site.yml)
+
 namespace :deploy do
   task :after_default, :roles => :web do
     run "cd #{release_path} && gem build repo_man.gemspec && mv *gem public"

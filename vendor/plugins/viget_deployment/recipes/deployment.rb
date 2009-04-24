@@ -15,7 +15,6 @@ namespace :viget do
   namespace :deploy do
     desc '[internal] Creates Viget-specific config files and any symlinks specified in the configuration.'
     task :post_update_code do
-      run "cp #{release_path}/config/database.yml-sample #{release_path}/config/database.yml"
       unless fetch(:symlinks,nil).nil?
         fetch(:symlinks).each do |link|
           run "rm -rf #{release_path}/#{link} && ln -nfs #{shared_path}/#{link} #{release_path}/#{link}"
