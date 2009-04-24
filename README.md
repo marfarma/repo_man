@@ -18,6 +18,8 @@ What this means to you, the non-Viget user of Repo Man, is that you will have to
 
 You'll need a UNIX or UNIX-like server to run Repo Man. This server should have your preferred Ruby on Rails frontend stack (we use Apache with Passenger), access to a database, sudo, and your repository-creating scripts mentioned in the last section.
 
+Repo Man requires Rails 2.3. If you remove the frozen `vendor/rails` directory for any reason, make sure you have Rails 2.3 available in some other way.
+
 In the `config` directory, you'll need to copy or rename `database.yml-sample` and `site.yml-sample` to remove the `-sample` suffix. `database.yml` is just like any other Rails app, but `site.yml` deserves some explanation:
 
 * `git_host`: The host where your Git repositories reside. It should permit ssh connections for all developers.
