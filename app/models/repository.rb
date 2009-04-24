@@ -1,6 +1,8 @@
 class Repository < ActiveRecord::Base
   default_scope :order => 'name ASC'
 
+  belongs_to :user
+
   attr_accessible :name, :scm
 
   validates_presence_of :name

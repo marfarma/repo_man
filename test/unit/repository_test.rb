@@ -12,6 +12,7 @@ class RepositoryTest < ActiveSupport::TestCase
       Scm.stubs(:create).returns(true)
       @repository = Factory(:repository)
     end
+    should_belong_to                    :user
     should_allow_mass_assignment_of     :name, :scm
     should_not_allow_mass_assignment_of :path
     should_validate_presence_of         :name
