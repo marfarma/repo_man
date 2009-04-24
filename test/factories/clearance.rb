@@ -1,5 +1,5 @@
 Factory.sequence :email do |n|
-  "user#{n}@example.com"
+  "user#{n}#{Time.now.to_f}@example.com"
 end
 
 Factory.define :user do |user|

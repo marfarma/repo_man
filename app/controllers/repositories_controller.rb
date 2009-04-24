@@ -1,5 +1,11 @@
 class RepositoriesController < ApplicationController
   before_filter :authenticate, :except => [:index, :show]
+  before_filter :find_repository, :only => [:edit, :update, :destroy]
+
+  rescue_from ActiveRecord::RecordNotFound do
+    flash[:notice] = "Couldn't find that repository."
+    redirect_to root_url
+  end
 
   def index
     @repositories = Repository.all
@@ -44,7 +50,6 @@ class RepositoriesController < ApplicationController
   end
 
   def update
-    @repository = Repository.find(params[:id])
     respond_to do |format|
       if @repository.update_attributes(params[:repository])
         flash[:success] = "Repository updated. You know something? <strong>You're all right!</strong>"
@@ -58,12 +63,16 @@ class RepositoriesController < ApplicationController
   end
 
   def destroy
-    @repository = Repository.find(params[:id])
     @repository.destroy
     flash[:success] = "Repository deleted. Repo man is always intense!"
     respond_to do |format|
       format.html { redirect_to(repositories_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def find_repository
+    @repository = current_user.repositories.find(params[:id])
   end
 end
