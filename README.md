@@ -42,6 +42,8 @@ Repo Man repositories, once created, can only be modified in certain ways:
 * If the name of the repository is changed, the repository will also be renamed on disk, and its path updated accordingly.
 * You cannot change the scm type of a repository once it's been created. This is way beyond the scope or ability of Repo Man.
 
+Repo Man manages the path attribute of repositories, hence why it is not mass-assignable. *Do not directly/manually change the path of a repository unless you know what you are doing.* Change the name instead, and the path will be adjusted to match.
+
 ## The API
 
 Repo Man exposes an API that can be accessed via Active Resource. See `/app/views/api/index.html.erb` for some examples.
