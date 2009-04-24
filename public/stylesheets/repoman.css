@@ -46,7 +46,7 @@ h2 a {
   margin-bottom: 25px;
 }
 
-.buttons a {
+.buttons a, input.ralph {
   background-color: #006;
   color: white;
   font-family: Rockwell, Helvetica, sans-serif;

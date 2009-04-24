@@ -8,7 +8,7 @@
   <%= form.label :scm %>
   <%= form.select :scm, Scm::SUPPORTED_SCM.collect{|s| [s,s]} %>
 </div>
-<p class="buttons">
-  <%= link_to_function 'Create Repository', 'this.parentNode.parentNode.submit();' %>
-</p>
+<div class="submit_field">
+  <%= form.submit "Create Repository", :disable_with => "Please wait...", :class => 'ralph' %>
+</div>
 <% end %>
