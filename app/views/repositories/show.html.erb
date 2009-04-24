@@ -1,7 +1,9 @@
 <%= render @repository %>
+<% if signed_in? && current_user == @repository.user %>
 <p class="buttons">
 <%= link_to 'Rename this repository', edit_repository_path(@repository) %>
 <%= link_to 'Delete this repository', @repository, :method => 'delete',
     :confirm => "Whoa. That's pretty intense. Are you sure?" %>
 </p>
+<% end %>
 <%= render :partial => "#{@repository.scm}_instructions", :locals => {:repository => @repository} %>

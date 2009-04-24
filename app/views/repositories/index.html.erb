@@ -1,8 +1,10 @@
 <%= render @repositories %>
 
+<% if signed_in? %>
 <p class="buttons">
 <%= link_to 'Create a new repository', new_repository_path %>
 </p>
+<% end %>
 
 <div class="instructions">
 <h2>The Repo Code</h2>

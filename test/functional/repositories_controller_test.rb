@@ -22,10 +22,6 @@ class RepositoriesControllerTest < ActionController::TestCase
           end
         end
 
-        should 'render a link to create a new repository' do
-          assert_select 'a[href=?]', new_repository_path
-        end
-
         should 'render The Repo Code' do
           assert_select 'div[class=instructions]'
         end
@@ -52,14 +48,6 @@ class RepositoriesControllerTest < ActionController::TestCase
         should 'render instructions' do
           assert_select 'div[class=instructions]'
         end
-
-        should 'render a button to rename the repository' do
-          assert_select 'a[href=?]', edit_repository_path(@repository), 'Rename this repository'
-        end
-
-        should 'render a button to delete the repository' do
-          assert_select 'a[href=?]', repository_path(@repository), 'Delete this repository'
-        end
       end
     end
 
@@ -69,10 +57,32 @@ class RepositoriesControllerTest < ActionController::TestCase
         sign_in_as @user
       end
 
+      context 'GET to :index' do
+        setup do
+          get :index
+        end
+        should 'render a link to create a new repository' do
+          assert_select 'a[href=?]', new_repository_path
+        end
+      end
+
       context 'who created a repository' do
         setup do
           Scm.stubs(:create).returns(true)
           @repository = Factory(:repository, :scm => 'git', :user => @user)
+        end
+
+        context 'GET to :show' do
+          setup do
+            get :show, :id => @repository.id
+          end
+          should 'render a button to rename the repository' do
+            assert_select 'a[href=?]', edit_repository_path(@repository), 'Rename this repository'
+          end
+
+          should 'render a button to delete the repository' do
+            assert_select 'a[href=?]', repository_path(@repository), 'Delete this repository'
+          end
         end
 
         context 'GET to :edit' do
