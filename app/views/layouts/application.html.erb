@@ -7,7 +7,7 @@
 	<%= stylesheet_link_tag 'repoman' %>
 </head>
 <body>
-  <%= image_tag 'repo_man.jpg', :id => 'repoman', :alt => '' %>
+  <p id="api">Developers: It's <a href="api.html">API</a> Time!</p>
   <h1><%= link_to 'Repo Man', root_url %></h1>
   <%= content_tag(:p, flash[:success], :class => 'success') unless flash[:success].blank? %>
   <%= yield %>

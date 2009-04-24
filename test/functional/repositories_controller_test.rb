@@ -16,14 +16,24 @@ class RepositoriesControllerTest < ActionController::TestCase
         should_assign_to :repositories
 
         should 'render the repository' do
-          assert_select 'h2', @repository.name
-          assert_select 'p',  @repository.path
+          assert_select 'h2', "#{@repository.name} #{@repository.path}" do
+            assert_select 'a[href=?]', repository_path(@repository), @repository.name
+          end
         end
 
         should 'render a link to create a new repository' do
           assert_select 'a[href=?]', new_repository_path
         end
+
+        should 'render The Repo Code' do
+          assert_select 'div[class=instructions]'
+        end
+
+        should 'render a link to the API documentation' do
+          assert_select 'p[id=api]'
+        end
       end
+
       context 'with XML format' do
         setup do
           get :index, :format => 'xml'
@@ -52,19 +62,21 @@ class RepositoriesControllerTest < ActionController::TestCase
         should_assign_to :repository
 
         should 'render the repository' do
-          assert_select 'h2', @repository.name
-          assert_select 'p',  @repository.path
+          assert_select 'h2', "#{@repository.name} #{@repository.path}" do
+            assert_select 'a[href=?]', repository_path(@repository), @repository.name
+          end
         end
 
         should 'render instructions' do
           assert_select 'div[class=instructions]'
         end
 
+        should 'render a button to rename the repository' do
+          assert_select 'a[href=?]', edit_repository_path(@repository), 'Rename this repository'
+        end
+
         should 'render a button to delete the repository' do
-          assert_select 'form[method=post][action=?][class=button-to]', repository_path(@repository) do
-            assert_select 'input[type=hidden][name=_method][value=delete]'
-            assert_select 'input[type=submit][value=Delete this repository]'
-          end
+          assert_select 'a[href=?]', repository_path(@repository), 'Delete this repository'
         end
       end
       context 'with XML format' do
@@ -95,7 +107,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         assert_select 'form[action=?][method=post]', repository_path(@repository) do
           assert_select 'input[type=hidden][name=_method][value=put]'
           assert_select 'input[type=text][name=?]', 'repository[name]'
-          assert_select 'input[type=submit]'
+          assert_select 'a[href=#][onclick=?]', 'this.parentNode.parentNode.submit();; return false;', 'Create Repository'
         end
       end
     end
@@ -128,8 +140,7 @@ class RepositoriesControllerTest < ActionController::TestCase
 
           should 'render error messaging' do
             assert_select 'div[id=errorExplanation]' do
-              assert_select 'p', "Errors! Try again. Repo Man's got all night, every night."
-              assert_select 'p', "Fix these:"
+              assert_select 'p', "Try again. Repo Man's got all night, every night."
               assert_select 'ul' do
                 assert_select 'li', "Name can't be blank"
               end
@@ -183,7 +194,7 @@ class RepositoriesControllerTest < ActionController::TestCase
           assert_select 'select[name=?]', 'repository[scm]' do
             Scm::SUPPORTED_SCM.each { |s| assert_select "option[value=#{s}]", s }
           end
-          assert_select 'input[type=submit]'
+          assert_select 'a[href=#][onclick=?]', 'this.parentNode.parentNode.submit();; return false;', 'Create Repository'
         end
       end
     end
@@ -237,8 +248,7 @@ class RepositoriesControllerTest < ActionController::TestCase
 
         should 'render error messaging' do
           assert_select 'div[id=errorExplanation]' do
-            assert_select 'p', "Errors! Try again. Repo Man's got all night, every night."
-            assert_select 'p', "Fix these:"
+            assert_select 'p', "Try again. Repo Man's got all night, every night."
             assert_select 'ul' do
               assert_select 'li', "Name can't be blank"
             end

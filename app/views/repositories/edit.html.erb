@@ -1,12 +1,10 @@
 <% form_for @repository do |form| %>
-<%= form.error_messages(:header_message => "Errors! Try again. Repo Man's got all night, every night.",
-                        :header_tag     => "p",
-                        :message        => "Fix these:") %>
+<%= custom_error_messages(form) %>
 <div class="text_field">
   <%= form.label :name %>
   <%= form.text_field :name %>
 </div>
-<div class="submit">
-  <%= form.submit 'Update Repository' %>
-</div>
+<p class="buttons">
+  <%= link_to_function 'Create Repository', 'this.parentNode.parentNode.submit();' %>
+</p>
 <% end %>

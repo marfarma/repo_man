@@ -1,5 +1,7 @@
 <%= render @repository %>
-<%= render :partial => "#{@repository.scm}_instructions", :locals => {:repository => @repository} %>
+<p class="buttons">
 <%= link_to 'Rename this repository', edit_repository_path(@repository) %>
-<%= button_to 'Delete this repository', @repository, :method => 'delete',
-              :confirm => "Whoa. That's pretty intense. Are you sure?" %>
+<%= link_to 'Delete this repository', @repository, :method => 'delete',
+    :confirm => "Whoa. That's pretty intense. Are you sure?" %>
+</p>
+<%= render :partial => "#{@repository.scm}_instructions", :locals => {:repository => @repository} %>
