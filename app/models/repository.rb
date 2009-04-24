@@ -1,6 +1,8 @@
 class Repository < ActiveRecord::Base
   default_scope :order => 'name ASC'
 
+  attr_accessible :name, :scm
+
   validates_presence_of :name
   validates_uniqueness_of :path, :allow_blank => true
   validates_inclusion_of :scm, :in => Scm::SUPPORTED_SCM, :message => 'is invalid'

@@ -12,10 +12,12 @@ class RepositoryTest < ActiveSupport::TestCase
       Scm.stubs(:create).returns(true)
       @repository = Factory(:repository)
     end
-    should_validate_presence_of   :name
-    should_not_allow_values_for   :scm, 'cvs', 'sourcesafe'
-    Scm::SUPPORTED_SCM.each       { |s| should_allow_values_for :scm, s }
-    should_validate_uniqueness_of :path
+    should_allow_mass_assignment_of     :name, :scm
+    should_not_allow_mass_assignment_of :path
+    should_validate_presence_of         :name
+    should_validate_uniqueness_of       :path
+    Scm::SUPPORTED_SCM.each { |s| should_allow_values_for :scm, s }
+    should_not_allow_values_for         :scm, 'cvs', 'sourcesafe'
     should 'have a slug' do
       assert_equal @repository.name.to_s.parameterize.to_s, @repository.slug
     end
