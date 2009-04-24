@@ -1,18 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>Repo Man</title>
-	<%= stylesheet_link_tag 'repoman' %>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Repo Man</title>
+  <%= stylesheet_link_tag 'repoman' %>
 </head>
 <body>
-  <p id="api">Developers: It's <%= link_to 'API', api_path %> Time!</p>
+  <div id="account" class="buttons">
+    <% unless signed_in? -%>
+    <%= link_to 'Sign in', new_session_url -%>
+    <%= link_to 'Sign up', new_user_url -%>
+    <% else -%>
+    <%= link_to 'Sign out', session_url, :method => 'delete' -%>
+    <% end -%>
+  </div>
   <h1><%= link_to 'Repo Man', root_url %></h1>
   <% flash.each do |key, value| %>
-    <%= content_tag(:p, value, :class => "#{key}") %>
+  <%= content_tag(:p, value, :class => key) %>
   <% end %>
-  <%= %w(notice success).each {|f| content_tag(:p, flash[f.to_sym], :class => f) unless flash[f.to_sym].blank? } %>
   <%= yield %>
 </body>
 </html>

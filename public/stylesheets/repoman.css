@@ -10,7 +10,7 @@ a {
   color: #006;
 }
 
-p#api {
+div#account {
   float: right;
 }
 
@@ -41,12 +41,12 @@ h2 a {
   text-decoration: none;
 }
 
-p.buttons {
+.buttons {
   margin-top: 25px;
   margin-bottom: 25px;
 }
 
-p.buttons a {
+.buttons a {
   background-color: #006;
   color: white;
   font-family: Rockwell, Helvetica, sans-serif;
@@ -111,6 +111,11 @@ div#error-container h2 {
 p.success {
   background-color: #9f9;
   color: black;
+  padding: 6px;
+}
+
+p.notice {
+  border: thin solid #9f9;
   padding: 6px;
 }
 

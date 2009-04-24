@@ -1,3 +1,10 @@
+<% unless signed_in? -%>
+<p class="notice">
+Hi there! Please <%= link_to 'sign in', new_session_url -%> or 
+<%= link_to 'sign up', new_user_url -%> to create, update or delete repositories.
+</p>
+<% end -%>
+
 <%= render @repositories %>
 
 <% if signed_in? %>

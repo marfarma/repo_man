@@ -26,8 +26,11 @@ class RepositoriesControllerTest < ActionController::TestCase
           assert_select 'div[class=instructions]'
         end
 
-        should 'render a link to the API documentation' do
-          assert_select 'p[id=api]'
+        should 'render the sign in/sign up buttons' do
+          assert_select 'div[id=account]' do
+            assert_select 'a[href=?]', new_session_url, 'Sign in'
+            assert_select 'a[href=?]', new_user_url, 'Sign up'
+          end
         end
       end
 
@@ -61,8 +64,15 @@ class RepositoriesControllerTest < ActionController::TestCase
         setup do
           get :index
         end
+
         should 'render a link to create a new repository' do
           assert_select 'a[href=?]', new_repository_path
+        end
+        
+        should 'render the sign out button' do
+          assert_select 'div[id=account]' do
+            assert_select 'a[href=?]', session_url, 'Sign out'
+          end
         end
       end
 
