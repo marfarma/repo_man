@@ -1,4 +1,6 @@
 class RepositoriesController < ApplicationController
+  before_filter :authenticate, :except => [:index, :show]
+
   def index
     @repositories = Repository.all
     respond_to do |format|
