@@ -107,7 +107,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         assert_select 'form[action=?][method=post]', repository_path(@repository) do
           assert_select 'input[type=hidden][name=_method][value=put]'
           assert_select 'input[type=text][name=?]', 'repository[name]'
-          assert_select 'a[href=#][onclick=?]', 'this.parentNode.parentNode.submit();; return false;', 'Create Repository'
+          assert_select 'input[type=submit][value=?]', 'Rename Repository'
         end
       end
     end
@@ -194,7 +194,7 @@ class RepositoriesControllerTest < ActionController::TestCase
           assert_select 'select[name=?]', 'repository[scm]' do
             Scm::SUPPORTED_SCM.each { |s| assert_select "option[value=#{s}]", s }
           end
-          assert_select 'a[href=#][onclick=?]', 'this.parentNode.parentNode.submit();; return false;', 'Create Repository'
+          assert_select 'input[type=submit][value=?]', 'Create Repository'
         end
       end
     end

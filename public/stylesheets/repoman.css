@@ -41,12 +41,12 @@ h2 a {
   text-decoration: none;
 }
 
-p.buttons {
+.buttons {
   margin-top: 25px;
   margin-bottom: 25px;
 }
 
-p.buttons a {
+.buttons a, input.ralph {
   background-color: #006;
   color: white;
   font-family: Rockwell, Helvetica, sans-serif;
