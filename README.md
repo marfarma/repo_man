@@ -55,3 +55,7 @@ Repo Man exposes an API that can be accessed via Active Resource. See `/app/view
 There are references to Alex Cox's _Repo Man_ throughout the application. See if you can spot them all! The first person to spot them all wins absolutely *nothing.*
 
 If you have the [Rockwell font](http://www.fonts.com/findfonts/detail.asp?pid=201908) installed on your system, the views will resemble the generic products previously sold at Ralph's, as seen in the _Repo Man_ movie. If you do not have the Rockwell font, a sans-serif font (typically Helvetica or Arial) will be used, making the views resemble Public Image Ltd.'s _Album_.
+
+## Author/License
+
+Repo Man was written by [Mark Cornick](http://github.com/mcornick). It is provided to you under the MIT license.
