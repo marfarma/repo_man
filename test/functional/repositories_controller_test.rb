@@ -1,13 +1,13 @@
 require 'test_helper'
 
 class RepositoriesControllerTest < ActionController::TestCase
-  context 'with a previously-existing repository' do
-    setup do
-      Scm.stubs(:create).returns(true)
-      @repository = Factory(:repository, :scm => 'git')
-    end
-    context 'GET to :index' do
-      context 'with HTML format' do
+  context 'speaking HTML' do
+    context 'with a previously-existing repository' do
+      setup do
+        Scm.stubs(:create).returns(true)
+        @repository = Factory(:repository, :scm => 'git')
+      end
+      context 'GET to :index' do
         setup do
           get :index
         end
@@ -34,26 +34,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         end
       end
 
-      context 'with XML format' do
-        setup do
-          get :index, :format => 'xml'
-        end
-        should_respond_with :success
-        should_assign_to :repositories
-
-        should 'render the repository' do
-          assert_select 'repositories' do
-            assert_select 'repository' do
-              assert_select 'name', @repository.name
-              assert_select 'path',  @repository.path
-            end
-          end
-        end
-      end
-    end
-
-    context 'GET to :show' do
-      context 'with HTML format' do
+      context 'GET to :show' do
         setup do
           get :show, :id => @repository.id
         end
@@ -79,42 +60,26 @@ class RepositoriesControllerTest < ActionController::TestCase
           assert_select 'a[href=?]', repository_path(@repository), 'Delete this repository'
         end
       end
-      context 'with XML format' do
+
+      context 'GET to :edit' do
         setup do
-          get :show, :id => @repository.id, :format => 'xml'
+          get :edit, :id => @repository.id
         end
         should_respond_with :success
+        should_render_template :edit
         should_assign_to :repository
 
-        should 'render the repository' do
-          assert_select 'repository' do
-            assert_select 'name', @repository.name
-            assert_select 'path',  @repository.path
+        should 'have a form to rename a repository' do
+          assert_select 'form[action=?][method=post]', repository_path(@repository) do
+            assert_select 'input[type=hidden][name=_method][value=put]'
+            assert_select 'input[type=text][name=?]', 'repository[name]'
+            assert_select 'a[href=#][onclick=?]', 'this.parentNode.parentNode.submit();; return false;', 'Create Repository'
           end
         end
       end
-    end
 
-    context 'GET to :edit' do
-      setup do
-        get :edit, :id => @repository.id
-      end
-      should_respond_with :success
-      should_render_template :edit
-      should_assign_to :repository
-
-      should 'have a form to rename a repository' do
-        assert_select 'form[action=?][method=post]', repository_path(@repository) do
-          assert_select 'input[type=hidden][name=_method][value=put]'
-          assert_select 'input[type=text][name=?]', 'repository[name]'
-          assert_select 'a[href=#][onclick=?]', 'this.parentNode.parentNode.submit();; return false;', 'Create Repository'
-        end
-      end
-    end
-
-    context 'PUT to :update' do
-      context 'with valid parameters' do
-        context 'with HTML format' do
+      context 'PUT to :update' do
+        context 'with valid parameters' do
           setup do
             put :update, :id => @repository.id, :repository => Factory.attributes_for(:repository)
           end
@@ -122,15 +87,7 @@ class RepositoriesControllerTest < ActionController::TestCase
           should_respond_with :redirect
           should_redirect_to('the repository') { repository_url(Repository.last.id) }
         end
-        context 'with XML format' do
-          setup do
-            put :update, :id => @repository.id, :repository => Factory.attributes_for(:repository), :format => 'xml'
-          end
-          should_respond_with :ok
-        end
-      end
-      context 'with invalid parameters' do
-        context 'with HTML format' do
+        context 'with invalid parameters' do
           setup do
             put :update, :id => @repository.id, :repository => { :name => nil }
           end
@@ -147,21 +104,11 @@ class RepositoriesControllerTest < ActionController::TestCase
             end
           end
         end
-        context 'with XML format' do
-          setup do
-            put :update, :id => @repository.id, :repository => { :name => nil }, :format => 'xml'
-          end
-          should_respond_with :unprocessable_entity
-        end
       end
-    end
 
-    context 'DELETE to :destroy' do
-      setup do
-        Scm.expects(:system).returns(true)
-      end
-      context 'with HTML format' do
+      context 'DELETE to :destroy' do
         setup do
+          Scm.expects(:system).returns(true)
           get :destroy, :id => @repository.id
         end
         should_change 'Repository.count', :by => -1
@@ -169,18 +116,9 @@ class RepositoriesControllerTest < ActionController::TestCase
         should_respond_with :redirect
         should_redirect_to('the repository index') { repositories_url }
       end
-      context 'with XML format' do
-        setup do
-          get :destroy, :id => @repository.id, :format => 'xml'
-        end
-        should_change 'Repository.count', :by => -1
-        should_respond_with :ok
-      end
     end
-  end
 
-  context 'GET to :new' do
-    context 'with HTML format' do
+    context 'GET to :new' do
       setup do
         get :new
       end
@@ -198,29 +136,11 @@ class RepositoriesControllerTest < ActionController::TestCase
         end
       end
     end
-    context 'with XML format' do
-      setup do
-        get :new, :format => 'xml'
-      end
-      should_respond_with :success
-      should_assign_to :repository
 
-      should 'render the repository schema' do
-        assert_select 'repository' do
-          assert_select 'name', nil
-          assert_select 'path', nil
-        end
-      end
-    end
-  end
-
-  context 'POST to :create' do
-    context 'with valid parameters' do
-      setup do
-        Scm.stubs(:create).returns(true)
-      end
-      context 'with HTML format' do
+    context 'POST to :create' do
+      context 'with valid parameters' do
         setup do
+          Scm.stubs(:create).returns(true)
           post :create, :repository => Factory.attributes_for(:repository)
         end
         should_change 'Repository.count', :by => 1
@@ -228,16 +148,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         should_respond_with :redirect
         should_redirect_to('the repository') { repository_url(Repository.last.id) }
       end
-      context 'with XML format' do
-        setup do
-          post :create, :repository => Factory.attributes_for(:repository), :format => 'xml'
-        end
-        should_change 'Repository.count', :by => 1
-        should_respond_with :created
-      end
-    end
-    context 'with invalid parameters' do
-      context 'with HTML format' do
+      context 'with invalid parameters' do
         setup do
           post :create, :repository => { :name => nil }
         end
@@ -255,7 +166,97 @@ class RepositoriesControllerTest < ActionController::TestCase
           end
         end
       end
-      context 'with XML format' do
+    end
+  end
+
+  context 'speaking XML' do
+    context 'with a previously-existing repository' do
+      setup do
+        Scm.stubs(:create).returns(true)
+        @repository = Factory(:repository, :scm => 'git')
+      end
+      context 'GET to :index' do
+        setup do
+          get :index, :format => 'xml'
+        end
+        should_respond_with :success
+        should_assign_to :repositories
+
+        should 'render the repository' do
+          assert_select 'repositories' do
+            assert_select 'repository' do
+              assert_select 'name', @repository.name
+              assert_select 'path',  @repository.path
+            end
+          end
+        end
+      end
+
+      context 'GET to :show' do
+        setup do
+          get :show, :id => @repository.id, :format => 'xml'
+        end
+        should_respond_with :success
+        should_assign_to :repository
+
+        should 'render the repository' do
+          assert_select 'repository' do
+            assert_select 'name', @repository.name
+            assert_select 'path',  @repository.path
+          end
+        end
+      end
+
+      context 'PUT to :update' do
+        context 'with valid parameters' do
+          setup do
+            put :update, :id => @repository.id, :repository => Factory.attributes_for(:repository), :format => 'xml'
+          end
+          should_respond_with :ok
+        end
+        context 'with invalid parameters' do
+          setup do
+            put :update, :id => @repository.id, :repository => { :name => nil }, :format => 'xml'
+          end
+          should_respond_with :unprocessable_entity
+        end
+      end
+
+      context 'DELETE to :destroy' do
+        setup do
+          Scm.expects(:system).returns(true)
+          get :destroy, :id => @repository.id, :format => 'xml'
+        end
+        should_change 'Repository.count', :by => -1
+        should_respond_with :ok
+      end
+    end
+
+    context 'GET to :new' do
+      setup do
+        get :new, :format => 'xml'
+      end
+      should_respond_with :success
+      should_assign_to :repository
+
+      should 'render the repository schema' do
+        assert_select 'repository' do
+          assert_select 'name', nil
+          assert_select 'path', nil
+        end
+      end
+    end
+
+    context 'POST to :create' do
+      context 'with valid parameters' do
+        setup do
+          Scm.stubs(:create).returns(true)
+          post :create, :repository => Factory.attributes_for(:repository), :format => 'xml'
+        end
+        should_change 'Repository.count', :by => 1
+        should_respond_with :created
+      end
+      context 'with invalid parameters' do
         setup do
           post :create, :repository => { :name => nil }, :format => 'xml'
         end
