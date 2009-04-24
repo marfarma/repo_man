@@ -9,7 +9,10 @@
 <body>
   <p id="api">Developers: It's <%= link_to 'API', api_path %> Time!</p>
   <h1><%= link_to 'Repo Man', root_url %></h1>
-  <%= content_tag(:p, flash[:success], :class => 'success') unless flash[:success].blank? %>
+  <% flash.each do |key, value| %>
+    <%= content_tag(:p, value, :class => "#{key}") %>
+  <% end %>
+  <%= %w(notice success).each {|f| content_tag(:p, flash[f.to_sym], :class => f) unless flash[f.to_sym].blank? } %>
   <%= yield %>
 </body>
 </html>
