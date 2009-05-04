@@ -1,6 +1,6 @@
 # Repo Man
 
-Repo Man is a Rails application for managing source code repositories. Currently, it can create, rename, and destroy Git and Subversion repositories. It also has an API, which works with [Provisional](http://github.com/vigetlabs/provisional) to automate repository management.
+Repo Man is a Rails application for managing source code repositories. Currently, it can create, rename, and destroy Git and Subversion repositories. It also has an API, which works with [Provisional](http://github.com/vigetlabs/provisional) and [Provisional-Repoman](http://github.com/vigetlabs/provisional-repoman) to automate repository management.
 
 ## Design Decisions
 
