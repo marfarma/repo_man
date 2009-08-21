@@ -164,7 +164,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         setup do
           get :destroy, :id => @repository.id
         end
-        should_change 'Repository.count', :by => -1
+        should_change('the repository count', :by => -1) { Repository.count }
         should_set_the_flash_to "Repository deleted. Repo man is always intense!"
         should_respond_with :redirect
         should_redirect_to('the repository index') { repositories_url }
@@ -173,7 +173,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         setup do
           get :destroy, :id => @repository.id, :format => 'xml'
         end
-        should_change 'Repository.count', :by => -1
+        should_change('the repository count', :by => -1) { Repository.count }
         should_respond_with :ok
       end
     end
@@ -223,7 +223,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         setup do
           post :create, :repository => Factory.attributes_for(:repository)
         end
-        should_change 'Repository.count', :by => 1
+        should_change('the repository count', :by => 1) { Repository.count }
         should_set_the_flash_to "Repository created. You know something? <strong>You're all right!</strong>"
         should_respond_with :redirect
         should_redirect_to('the repository') { repository_url(Repository.last.id) }
@@ -232,7 +232,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         setup do
           post :create, :repository => Factory.attributes_for(:repository), :format => 'xml'
         end
-        should_change 'Repository.count', :by => 1
+        should_change('the repository count', :by => 1) { Repository.count }
         should_respond_with :created
       end
     end
@@ -241,7 +241,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         setup do
           post :create, :repository => { :name => nil }
         end
-        should_not_change 'Repository.count'
+        should_not_change('the repository count') { Repository.count }
         should_not_set_the_flash
         should_respond_with :success
         should_render_template :new
@@ -259,7 +259,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         setup do
           post :create, :repository => { :name => nil }, :format => 'xml'
         end
-        should_not_change 'Repository.count'
+        should_not_change('the repository count') { Repository.count }
         should_respond_with :unprocessable_entity
       end
     end
